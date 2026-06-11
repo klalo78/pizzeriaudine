@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Juego de Memoria - Edición Especial</title>
-    <!-- Librería de íconos para WhatsApp -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
@@ -210,7 +209,6 @@
         }
         .btn-descargar:hover { background-color: #2980b9; transform: scale(1.05); }
 
-        /* ESTILO DEL BOTÓN ROJO PARA SALIR DEFINITIVAMENTE */
         .btn-salir {
             background-color: #e74c3c;
             font-size: 1.2rem;
@@ -229,7 +227,6 @@
         }
         .btn-salir:hover { background-color: #c0392b; transform: scale(1.05); }
 
-        /* ZONA DEL JUEGO */
         #zona-juego {
             display: none;
             flex-direction: column;
@@ -313,7 +310,6 @@
 </head>
 <body>
 
-    <!-- 1. PANTALLA DE ENTRADA -->
     <div id="pantalla-entrada" class="pantalla-completa">
         <div class="logo-grande">
             <img src="logo.png" alt="Logo">
@@ -332,13 +328,12 @@
         </a>
     </div>
 
-    <!-- 2. PANTALLA DE PREMIO (Si gana viene acá directo) -->
     <div id="pantalla-premio" class="pantalla-completa" style="display: none;">
         <div class="contenedor-blanco-patrio">
             <img src="messi.jpg" class="imagen-messi" alt="Messi Campeon">
             
             <div class="texto-premio-ganado">
-                &iexcl;Felicitaciones&excl; Te llevás un <span class="porcentaje-animado">15% DE DESCUENTO</span> en cualquier compra abonando en efectivo + una faina <span class="faina-gratis">GRATIS!!</span>
+                &iexcl;Felicitaciones&excl; Te llev&aacute;s un <span class="porcentaje-animado">15% DE DESCUENTO</span> en cualquier compra abonando en efectivo + una faina <span class="faina-gratis">GRATIS!!</span>
             </div>
             <div class="texto-instruccion-ganado">Busca a un empleado para que valide tu premio.</div>
             
@@ -350,7 +345,6 @@
         </div>
     </div>
 
-    <!-- 3. PANTALLA DE PREMIO YA VALIDADO -->
     <div id="pantarma-validada" class="pantalla-completa" style="display: none;">
         <div class="contenedor-blanco-patrio">
             <div class="logo-grande" style="margin-bottom: 15px;">
@@ -366,7 +360,6 @@
         </div>
     </div>
 
-    <!-- 4. PANTALLA DE BLOQUEO -->
     <div id="pantalla-bloqueo" class="pantalla-completa" style="display: none;">
         <div class="contenedor-blanco-patrio">
             <div class="logo-grande" style="margin-bottom: 15px;">
@@ -377,7 +370,6 @@
         </div>
     </div>
 
-    <!-- 5. INTERFAZ DEL TABLERO DE JUEGO -->
     <div id="zona-juego">
         <div class="header-juego">
             <div class="logo-contenedor">
@@ -388,7 +380,6 @@
 
         <div class="tablero" id="tablero"></div>
 
-        <!-- PANTALLA DE DERROTA INTERNA (Si se le acaba el tiempo viene acá) -->
         <div id="pantalla-derrota">
             <h2>Gracias por participar.</h2>
             <p>Se ha agotado el tiempo de juego.</p>
@@ -430,7 +421,6 @@
             const ultimoRegistro = localStorage.getItem('premioValidadoFecha');
             const juegoBloqueado = localStorage.getItem('juegoBloqueadoFecha');
             
-            // Si ya ganó hoy O si ya se quedó sin tiempo hoy, va directo al bloqueo
             if (ultimoRegistro === fechaHoy || juegoBloqueado === fechaHoy) {
                 document.getElementById('pantalla-entrada').style.display = 'none';
                 document.getElementById('pantalla-bloqueo').style.display = 'flex';
@@ -485,7 +475,6 @@
             sonidoHinchada.play().catch(e => console.log(e));
             bloqueoTablero = true;
             
-            // Registramos bloqueo diario por perder
             const fechaHoy = new Date().toDateString();
             localStorage.setItem('juegoBloqueadoFecha', fechaHoy);
             
@@ -560,7 +549,6 @@
                     clearInterval(intervaloReloj); 
                     sonidoTicTac.pause();
                     
-                    // GANÓ: Limpia el tablero y muestra la validación de Messi
                     setTimeout(() => {
                         document.getElementById('zona-juego').style.display = 'none';
                         document.getElementById('pantalla-premio').style.display = 'flex';

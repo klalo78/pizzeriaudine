@@ -47,10 +47,10 @@
 
         @keyframes pulsoDescuento {
             0%, 100% { transform: scale(1); color: #2ecc71; }
-            50% { transform: scale(1.15); color: #27ae60; text-shadow: 0 0 8px rgba(46,204,113,0.5); }
+            50% { transform: scale(1.1); color: #27ae60; text-shadow: 0 0 8px rgba(46,204,113,0.4); }
         }
 
-        /* NUEVAS CLASES PARA DESTACAR TEXTOS */
+        /* TEXTOS DESTACADOS */
         .porcentaje-animado {
             font-weight: 900;
             display: inline-block;
@@ -103,7 +103,6 @@
             animation: moviLogo 4s ease-in-out infinite; 
         }
 
-        /* CONTENEDOR BLANCO UNIFICADO CON TRIPLE FILETE PATRIO EN EL PERÍMETRO */
         .contenedor-blanco-patrio {
             background-color: #ffffff;
             padding: 25px 30px;
@@ -114,8 +113,6 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            
-            /* TRIPLE FILETE PERIMETRAL */
             border: 6px solid #74acdf;
             outline: 4px solid #ffffff;
             outline-offset: -10px;
@@ -213,6 +210,7 @@
         }
         .btn-descargar:hover { background-color: #2980b9; transform: scale(1.05); }
 
+        /* ESTILO DEL BOTÓN ROJO PARA SALIR DEFINITIVAMENTE */
         .btn-salir {
             background-color: #e74c3c;
             font-size: 1.2rem;
@@ -226,6 +224,8 @@
             font-weight: bold;
             cursor: pointer;
             transition: transform 0.2s, background-color 0.2s;
+            display: inline-block;
+            text-decoration: none;
         }
         .btn-salir:hover { background-color: #c0392b; transform: scale(1.05); }
 
@@ -320,7 +320,6 @@
         </div>
         <button class="btn-general" onclick="comenzarExperiencia()">JUGAR</button>
         
-        <!-- PROMO ACTUALIZADA -->
         <div class="contenedor-premio-argentino">
             <p class="texto-premio-entrada">
                 <span class="porcentaje-animado">15% DE DESCUENTO</span> EN CUALQUIER COMPRA ABONANDO EN EFECTIVO. + UNA FAINA <span class="faina-gratis">GRATIS!!</span>
@@ -333,14 +332,13 @@
         </a>
     </div>
 
-    <!-- 2. PANTALLA DE PREMIO -->
+    <!-- 2. PANTALLA DE PREMIO (Si gana viene acá directo) -->
     <div id="pantalla-premio" class="pantalla-completa" style="display: none;">
         <div class="contenedor-blanco-patrio">
             <img src="messi.jpg" class="imagen-messi" alt="Messi Campeon">
             
-            <!-- PROMO ACTUALIZADA -->
             <div class="texto-premio-ganado">
-                &iexcl;Felicitaciones&excl; Te llevas un <span class="porcentaje-animado">15% DE DESCUENTO</span> en tu compra en efectivo + una faina <span class="faina-gratis">GRATIS!!</span>
+                &iexcl;Felicitaciones&excl; Te llevás un <span class="porcentaje-animado">15% DE DESCUENTO</span> en cualquier compra abonando en efectivo + una faina <span class="faina-gratis">GRATIS!!</span>
             </div>
             <div class="texto-instruccion-ganado">Busca a un empleado para que valide tu premio.</div>
             
@@ -364,7 +362,7 @@
             
             <a href="cupon.jpg" download="cupon.jpg" class="btn-descargar">DESCARGAR CUP&Oacute;N</a>
             
-            <button class="btn-general btn-salir" onclick="window.location.href='https://www.google.com'">salir del juego</button>
+            <button class="btn-salir" onclick="window.location.href='https://www.google.com'">salir del juego</button>
         </div>
     </div>
 
@@ -390,6 +388,7 @@
 
         <div class="tablero" id="tablero"></div>
 
+        <!-- PANTALLA DE DERROTA INTERNA (Si se le acaba el tiempo viene acá) -->
         <div id="pantalla-derrota">
             <h2>Gracias por participar.</h2>
             <p>Se ha agotado el tiempo de juego.</p>
@@ -428,11 +427,11 @@
             document.getElementById('zona-juego').style.display = 'none';
 
             const fechaHoy = new Date().toDateString();
-            
-            const premioValidado = localStorage.getItem('premioValidadoFecha');
+            const ultimoRegistro = localStorage.getItem('premioValidadoFecha');
             const juegoBloqueado = localStorage.getItem('juegoBloqueadoFecha');
             
-            if (premioValidado === fechaHoy || juegoBloqueado === fechaHoy) {
+            // Si ya ganó hoy O si ya se quedó sin tiempo hoy, va directo al bloqueo
+            if (ultimoRegistro === fechaHoy || juegoBloqueado === fechaHoy) {
                 document.getElementById('pantalla-entrada').style.display = 'none';
                 document.getElementById('pantalla-bloqueo').style.display = 'flex';
             } else {
@@ -486,6 +485,7 @@
             sonidoHinchada.play().catch(e => console.log(e));
             bloqueoTablero = true;
             
+            // Registramos bloqueo diario por perder
             const fechaHoy = new Date().toDateString();
             localStorage.setItem('juegoBloqueadoFecha', fechaHoy);
             
@@ -560,6 +560,7 @@
                     clearInterval(intervaloReloj); 
                     sonidoTicTac.pause();
                     
+                    // GANÓ: Limpia el tablero y muestra la validación de Messi
                     setTimeout(() => {
                         document.getElementById('zona-juego').style.display = 'none';
                         document.getElementById('pantalla-premio').style.display = 'flex';
